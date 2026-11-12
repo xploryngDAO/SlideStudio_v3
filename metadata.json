@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix Remix Remix SlideStudio HTML - Editor Visual de Slides",
+  "description": "Editor visual intuitivo para relatórios e apresentações de slides HTML com edição de cores, textos, fontes, gráficos e assistência com IA Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

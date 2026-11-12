@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo Casas Bahia - Diagnóstico Estratégico de CX & NPS (Regional 120)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --cb-blue-primary: #0033C6;
+      --cb-blue-dark: #002280;
+      --cb-blue-navy: #00174F;
+      --cb-light-blue: #EEF3FF;
+      --cb-blue-border: #C7D7FE;
+      --cb-red-primary: #E71A3B;
+      --cb-red-dark: #C51330;
+      --cb-gray-900: #0F172A;
+      --cb-gray-700: #334155;
+      --cb-gray-600: #475569;
+      --cb-gray-500: #64748B;
+      --cb-gray-200: #E2E8F0;
+      --cb-gray-100: #F1F5F9;
+      --cb-gray-50: #F8FAFC;
+      --cb-white: #FFFFFF;
+      --cb-success: #059669;
+      --cb-danger: #DC2626;
+      --cb-warning: #D97706;
+      --cb-info: #0284C7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--cb-gray-50);
+      color: var(--cb-gray-900);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header-bar {
+      height: 52px;
+      background: linear-gradient(90deg, var(--cb-blue-navy) 0%, var(--cb-blue-primary) 100%);
+      color: var(--cb-white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 2vw, 28px);
+      border-bottom: 3px solid var(--cb-red-primary);
+      position: relative;
+      z-index: 10;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .cb-badge {
+      background: #FFFFFF;
+      color: var(--cb-blue-dark);
+      font-weight: 800;
+      font-size: clamp(10px, 0.75vw, 11px);
+      letter-spacing: 0.8px;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .header-tag {
+      font-size: clamp(10px, 0.75vw, 11px);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 3px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .header-right {
+      font-size: clamp(11px, 0.85vw, 13px);
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .deck-container {
+      width: 100vw;
+      height: calc(100vh - 100px);
+      position: relative;
+      background: var(--cb-white);
+      overflow: hidden;
+    }
+    .slide {
+      display: none !important;
+      width: 100%;
+      height: 100%;
+      padding: clamp(14px, 2vh, 24px) clamp(20px, 2.5vw, 36px);
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .slide.active {
+      display: flex !important;
+    }
+
+    .slide-cover {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at top right, #EEF3FF 0%, #FFFFFF 70%);
+      border-radius: 8px;
+      padding: clamp(16px, 2.5vh, 32px);
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-tag {
+      background: var(--cb-light-blue);
+      color: var(--cb-blue-primary);
+      border: 1px solid var(--cb-blue-border);
+      padding: 5px 16px;
+      border-radius: 999px;
+      font-size: clamp(10px, 0.8vw, 12px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: clamp(10px, 1.4vh, 16px);
+    }
+    .cover-title {
+      font-size: clamp(24px, 2.5vw, 34px);
+      font-weight: 800;
+      color: var(--cb-blue-navy);
+      line-height: 1.15;
+      max-width: 960px;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .cover-subtitle {
+      font-size: clamp(12px, 1vw, 15px);
+      color: var(--cb-gray-700);
+      max-width: 820px;
+      line-height: 1.45;
+      margin-bottom: clamp(16px, 2.4vh, 24px);
+      font-weight: 500;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(10px, 1.2vw, 16px);
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: clamp(12px, 1.8vh, 18px);
+    }
+    .cover-kpi {
+      background: var(--cb-white);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 8px;
+      padding: clamp(10px, 1.4vh, 16px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border-top: 3px solid var(--cb-blue-primary);
+      text-align: left;
+    }
+    .cover-kpi.danger { border-top-color: var(--cb-danger); }
+    .cover-kpi-label {
+      font-size: clamp(10px, 0.72vw, 11px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--cb-gray-500);
+      letter-spacing: 0.5px;
+    }
+    .cover-kpi-val {
+      font-size: clamp(1.4rem, 1.9vw, 1.9rem);
+      font-weight: 800;
+      color: var(--cb-blue-navy);
+      margin: 4px 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .cover-kpi-sub {
+      font-size: clamp(10px, 0.75vw, 11px);
+      font-weight: 600;
+      color: var(--cb-success);
+    }
+    .cover-kpi-sub.neg { color: var(--cb-danger); }
+    .cover-meta-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: clamp(10px, 0.75vw, 11px);
+      color: var(--cb-gray-500);
+      border-top: 1px solid var(--cb-gray-200);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+
+    .slide-header {
+      margin-bottom: clamp(8px, 1.2vh, 12px);
+      border-bottom: 1px solid var(--cb-gray-200);
+      padding-bottom: 8px;
+      flex-shrink: 0;
+    }
+    .slide-category {
+      font-size: clamp(0.68rem, 0.8vw, 0.78rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--cb-blue-primary);
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+    }
+    .slide-category::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cb-red-primary);
+      display: inline-block;
+    }
+    .slide-title {
+      font-size: clamp(1.18rem, 1.6vw, 1.5rem);
+      font-weight: 700;
+      color: var(--cb-gray-900);
+      letter-spacing: -0.02em;
+    }
+    .slide-subtitle {
+      font-size: clamp(0.74rem, 0.9vw, 0.86rem);
+      color: var(--cb-gray-600);
+      margin-top: 2px;
+    }
+    .slide-content {
+      flex: 1;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.2vh, 14px);
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(8px, 1vw, 12px);
+      flex-shrink: 0;
+    }
+    .kpi-row-6 {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: clamp(6px, 0.8vw, 10px);
+      flex-shrink: 0;
+    }
+    .kpi-card {
+      background: var(--cb-white);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      padding: clamp(8px, 1.1vh, 12px) clamp(10px, 1vw, 14px);
+      border-top: 3px solid var(--cb-blue-primary);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .kpi-card.highlight { border-top-color: var(--cb-blue-primary); background: #F8FAFF; }
+    .kpi-card.success { border-top-color: var(--cb-success); }
+    .kpi-card.danger { border-top-color: var(--cb-danger); }
+    .kpi-card.warning { border-top-color: var(--cb-warning); }
+    .kpi-label {
+      font-size: clamp(9px, 0.7vw, 10.5px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--cb-gray-500);
+      letter-spacing: 0.4px;
+    }
+    .kpi-val {
+      font-size: clamp(1.15rem, 1.5vw, 1.55rem);
+      font-weight: 800;
+      color: var(--cb-blue-navy);
+      margin: 2px 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-delta {
+      font-size: clamp(9.5px, 0.72vw, 11px);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .kpi-delta.pos { color: var(--cb-success); }
+    .kpi-delta.neg { color: var(--cb-danger); }
+    .kpi-delta.neu { color: var(--cb-gray-600); }
+
+    .table-container {
+      flex: 1;
+      min-height: 0;
+      height: 100%;
+      overflow-y: auto;
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      background: var(--cb-white);
+    }
+    .analise-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(10.5px, 0.8vw, 12px);
+    }
+    .analise-table thead th {
+      position: sticky;
+      top: 0;
+      background: var(--cb-gray-100);
+      z-index: 2;
+      padding: 8px 12px;
+      text-transform: uppercase;
+      font-size: clamp(9.5px, 0.7vw, 10.5px);
+      font-weight: 700;
+      color: var(--cb-gray-700);
+      border-bottom: 2px solid var(--cb-gray-200);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .analise-table thead th.text-right { text-align: right; }
+    .analise-table thead th.text-center { text-align: center; }
+    .analise-table tbody tr {
+      border-bottom: 1px solid var(--cb-gray-200);
+      transition: background-color 0.12s ease;
+    }
+    .analise-table tbody tr:nth-child(even) { background-color: #FAFCFF; }
+    .analise-table tbody tr:hover { background-color: var(--cb-gray-100); }
+    .analise-table tbody tr.row-highlight { background-color: #EEF4FF; font-weight: 600; }
+    .analise-table tbody td {
+      padding: 7px 12px;
+      color: var(--cb-gray-700);
+      vertical-align: middle;
+    }
+    .analise-table tbody td.text-right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+    .analise-table tbody td.text-center { text-align: center; }
+
+    .badge-nps-excelente {
+      background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; display: inline-block;
+    }
+    .badge-nps-qualidade {
+      background: #DBEAFE; color: #1D4ED8; border: 1px solid #BFDBFE; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; display: inline-block;
+    }
+    .badge-nps-aperfeicoamento {
+      background: #FEF3C7; color: #B45309; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; display: inline-block;
+    }
+    .badge-nps-critico {
+      background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; display: inline-block;
+    }
+    .badge-pos {
+      background: #E8F5E9; color: #2E7D32; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10.5px;
+    }
+    .badge-neg {
+      background: #FFEBEE; color: #C62828; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10.5px;
+    }
+    .badge-porte {
+      background: var(--cb-gray-100); color: var(--cb-gray-700); border: 1px solid var(--cb-gray-200); padding: 1px 5px; border-radius: 3px; font-size: 10px; font-weight: 600;
+    }
+
+    .split-view {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: clamp(12px, 1.5vw, 18px);
+      flex: 1;
+      min-height: 0;
+      height: 100%;
+    }
+    .split-view-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(12px, 1.5vw, 18px);
+      flex: 1;
+      min-height: 0;
+      height: 100%;
+    }
+    .chart-card {
+      background: var(--cb-white);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      padding: clamp(10px, 1.2vw, 14px);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      height: 100%;
+    }
+    .chart-header {
+      font-size: clamp(11px, 0.8vw, 12px);
+      font-weight: 700;
+      color: var(--cb-blue-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .chart-container {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .side-panel {
+      background: var(--cb-gray-50);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      padding: clamp(12px, 1.4vw, 16px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.2vh, 12px);
+      overflow-y: auto;
+      min-height: 0;
+      height: 100%;
+    }
+    .side-panel-title {
+      font-size: clamp(11px, 0.85vw, 13px);
+      font-weight: 700;
+      color: var(--cb-blue-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--cb-blue-primary);
+      padding-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .takeaway-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: clamp(10.5px, 0.8vw, 12px);
+      color: var(--cb-gray-700);
+    }
+    .takeaway-list li {
+      position: relative;
+      padding-left: 16px;
+      line-height: 1.4;
+    }
+    .takeaway-list li::before {
+      content: "▪";
+      color: var(--cb-blue-primary);
+      position: absolute;
+      left: 0;
+      font-size: 13px;
+    }
+    .takeaway-list.danger li::before { color: var(--cb-danger); }
+    .takeaway-list.success li::before { color: var(--cb-success); }
+
+    .quote-box {
+      background: var(--cb-gray-50);
+      border-left: 4px solid var(--cb-blue-primary);
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: clamp(10.5px, 0.8vw, 12px);
+      font-style: italic;
+      color: var(--cb-gray-700);
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+    .quote-box.danger { border-left-color: var(--cb-danger); background: #FFF5F5; }
+    .quote-box.success { border-left-color: var(--cb-success); background: #F0FDF4; }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      flex: 1;
+      min-height: 0;
+      height: 100%;
+    }
+    .matrix-card {
+      background: var(--cb-white);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .matrix-card.q-critico { border-top: 3px solid var(--cb-danger); background: #FFFBFB; }
+    .matrix-card.q-alerta { border-top: 3px solid var(--cb-warning); background: #FFFDF7; }
+    .matrix-card.q-estavel { border-top: 3px solid var(--cb-info); background: #F7FAFC; }
+    .matrix-card.q-fortaleza { border-top: 3px solid var(--cb-success); background: #F4FDF8; }
+    .matrix-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      flex: 1;
+      min-height: 0;
+    }
+    .journey-card {
+      background: var(--cb-white);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 3px solid var(--cb-blue-primary);
+    }
+    .cluster-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
+    }
+    .cluster-card {
+      background: var(--cb-white);
+      border: 1px solid var(--cb-gray-200);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 3px solid var(--cb-danger);
+    }
+
+    .footer-bar {
+      height: 48px;
+      background: var(--cb-white);
+      border-top: 1px solid var(--cb-gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 2vw, 28px);
+      position: relative;
+      z-index: 10;
+    }
+    .progress-bar {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      height: 3px;
+      background: var(--cb-red-primary);
+      transition: width 0.25s ease;
+    }
+    .footer-meta {
+      font-size: clamp(10px, 0.75vw, 12px);
+      color: var(--cb-gray-500);
+      font-weight: 600;
+    }
+    .footer-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slide-counter {
+      font-size: clamp(10px, 0.75vw, 12px);
+      font-weight: 600;
+      color: var(--cb-gray-600);
+      font-variant-numeric: tabular-nums;
+      margin-right: 6px;
+    }
+    .btn-nav {
+      background: var(--cb-gray-50);
+      border: 1px solid var(--cb-gray-200);
+      color: var(--cb-gray-700);
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: clamp(10px, 0.75vw, 12px);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-nav:hover { background: var(--cb-gray-200); color: var(--cb-gray-900); }
+    .btn-nav-primary {
+      background: var(--cb-blue-primary);
+      color: var(--cb-white);
+      border-color: var(--cb-blue-primary);
+    }
+    .btn-nav-primary:hover {
+      background: var(--cb-blue-dark);
+      color: var(--cb-white);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Superior Corporativo -->
+  <header class="header-bar">
+    <div class="header-left">
+      <span class="cb-badge">CASAS BAHIA</span>
+      <span class="header-tag">CX & Estratégia de Operações</span>
+      <span style="font-size: 11px; opacity: 0.85;">Diretoria 1 • Regional 120</span>
+    </div>
+    <div class="header-right">
+      <span>Safra Fechada: <strong>Setembro/2026</strong> | Safra Parcial: <strong>Outubro/2026</strong></span>
+    </div>
+  </header>
+
+  <!-- Container de Slides -->
+  <main class="deck-container">
+
+    <!-- SLIDE 1: CAPA EXECUTIVA & METADADOS -->
+    <section class="slide active" data-slide="1">
+      <div class="slide-cover">
+        <span class="cover-tag">Diagnóstico Estratégico de CX & Performance de NPS</span>
+        <h1 class="cover-title">Excelência Operacional & Alavancagem de NPS</h1>
+        <p class="cover-subtitle">
+          Análise multidimensional por safra estrita (<strong>DataCompra</strong>), decomposição de impacto líquido <strong>Leave-One-Out</strong> e plano de choque tático para filiais críticas da <strong>Regional 120 (Diretoria 1)</strong>.
+        </p>
+
+        <div class="cover-grid">
+          <div class="cover-kpi danger">
+            <div class="cover-kpi-label">NPS Consolidado (Set/26)</div>
+            <div class="cover-kpi-val">67.7</div>
+            <div class="cover-kpi-sub neg">-2.3 pts vs Ago/26 • Aperfeiçoamento</div>
+          </div>
+          <div class="cover-kpi">
+            <div class="cover-kpi-label">Prévia Parcial (Out/26)</div>
+            <div class="cover-kpi-val">72.8</div>
+            <div class="cover-kpi-sub">+5.1 pts MoM • 246 pesquisas</div>
+          </div>
+          <div class="cover-kpi danger">
+            <div class="cover-kpi-label">Impacto na Diretoria 1</div>
+            <div class="cover-kpi-val" style="color: var(--cb-danger);">-0.59 p.p.</div>
+            <div class="cover-kpi-sub neg">#11 no Ranking D1 • Maior Ofensora</div>
+          </div>
+          <div class="cover-kpi">
+            <div class="cover-kpi-label">Amostra Analisada (Set/26)</div>
+            <div class="cover-kpi-val">594</div>
+            <div class="cover-kpi-sub">481 Promotores (81.0%) • 79 Detratores</div>
+          </div>
+        </div>
+
+        <div class="cover-meta-bar">
+          <span><strong>Metodologia:</strong> Atribuição por DataCompra (Regra Estrita de Safra)</span>
+          <span>•</span>
+          <span><strong>Unidades:</strong> 23 Filiais Mapeadas</span>
+          <span>•</span>
+          <span><strong>Responsável:</strong> Inteligência de CX & Operações de Varejo</span>
+          <span>•</span>
+          <span><strong>Data de Fechamento:</strong> 09/10/2026</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: PAINEL EXECUTIVO & EVOLUÇÃO TEMPORAL -->
+    <section class="slide" data-slide="2">
+      <div class="slide-header">
+        <div class="slide-category">Performance Temporal</div>
+        <h2 class="slide-title">Evolução Mensal do NPS & Mix de Satisfação (2026)</h2>
+        <p class="slide-subtitle">Recuo em Setembro para 67.7 decorrente de gargalos logísticos e retomada parcial para 72.8 em Outubro</p>
+      </div>
+      <div class="slide-content">
+        <div class="kpi-row-6">
+          <div class="kpi-card">
+            <div class="kpi-label">Média Histórica (9M)</div>
+            <div class="kpi-val">69.3</div>
+            <div class="kpi-delta neu">9.163 pesquisas apuradas</div>
+          </div>
+          <div class="kpi-card danger">
+            <div class="kpi-label">Mínima (Jan/26)</div>
+            <div class="kpi-val">63.4</div>
+            <div class="kpi-delta neg">13.9% Detratores</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Mês Anterior (Ago/26)</div>
+            <div class="kpi-val">70.0</div>
+            <div class="kpi-delta neu">11.8% Detratores</div>
+          </div>
+          <div class="kpi-card danger">
+            <div class="kpi-label">Safra Fechada (Set/26)</div>
+            <div class="kpi-val" style="color: var(--cb-danger);">67.7</div>
+            <div class="kpi-delta neg">-2.3 pts MoM</div>
+          </div>
+          <div class="kpi-card success">
+            <div class="kpi-label">Prévia Parcial (Out/26)</div>
+            <div class="kpi-val">72.8</div>
+            <div class="kpi-delta pos">+5.1 pts (246 pesq)</div>
+          </div>
+          <div class="kpi-card warning">
+            <div class="kpi-label">Taxa Detração Set/26</div>
+            <div class="kpi-val">13.3%</div>
+            <div class="kpi-delta neg">+1.4 p.p. vs Ago</div>
+          </div>
+        </div>
+
+        <div class="split-view">
+          <div class="chart-card">
+            <div class="chart-header">Trajetória Mensal de NPS (Jan - Out/2026)</div>
+            <div class="chart-container">
+              <canvas id="chartEvolucaoNPS"></canvas>
+            </div>
+          </div>
+          <div class="side-panel">
+            <div class="side-panel-title">Takeaways Executivos</div>
+            <ul class="takeaway-list">
+              <li><strong>Desaceleração em Setembro</strong>: Após estabilizar entre <strong>69.4 e 71.6 NPS</strong> no meio do ano, a Regional 120 recuou para <strong>67.7 NPS</strong> (-2.3 pts MoM), atingindo o segundo pior resultado de 2026.</li>
+              <li><strong>Pico de Detração em Q3</strong>: O share de clientes detratores subiu para <strong>13.3% (79 clientes)</strong>, superando o patamar de Julho (10.7%) e Agosto (11.8%), impulsionado por quebras de entrega CD e fricção no Retira Loja.</li>
+              <li><strong>Erosão de Promotores</strong>: O percentual de promotores fechou em <strong>81.0% (481 clientes)</strong>, distante da máxima histórica registrada em Março (83.2%).</li>
+              <li><strong>Reação na Safra Parcial (Out/26)</strong>: A prévia indica recuperação para <strong>72.8 NPS (+5.1 pts)</strong> com 246 pesquisas apuradas (D+9) e queda na detração para 9.8%. A prioridade é conter a dispersão de fim de mês.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: O PAPEL DA REGIONAL NO CONTEXTO DA DIRETORIA -->
+    <section class="slide" data-slide="3">
+      <div class="slide-header">
+        <div class="slide-category">Benchmark Regional</div>
+        <h2 class="slide-title">Posicionamento da Regional 120 na Diretoria 1 (Setembro/2026)</h2>
+        <p class="slide-subtitle">Regional 120 ocupa a 11ª posição e representa a maior detração líquida da diretoria (-0.59 p.p.)</p>
+      </div>
+      <div class="slide-content">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-label">NPS Consolidado Diretoria 1</div>
+            <div class="kpi-val">71.7</div>
+            <div class="kpi-delta neu">4.635 Pesquisas • 81.1% Promotores</div>
+          </div>
+          <div class="kpi-card danger">
+            <div class="kpi-label">NPS Regional 120</div>
+            <div class="kpi-val" style="color: var(--cb-danger);">67.7</div>
+            <div class="kpi-delta neg">-4.0 pts vs Diretoria 1</div>
+          </div>
+          <div class="kpi-card warning">
+            <div class="kpi-label">Posição no Ranking D1</div>
+            <div class="kpi-val">#11</div>
+            <div class="kpi-delta neg">Penúltima entre as 12 regionais operacionais</div>
+          </div>
+          <div class="kpi-card danger">
+            <div class="kpi-label">Impacto Leave-One-Out</div>
+            <div class="kpi-val" style="color: var(--cb-danger);">-0.59 p.p.</div>
+            <div class="kpi-delta neg">Sem Reg 120, Diretoria 1 sobe para 72.26</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="analise-table">
+            <thead>
+              <tr>
+                <th class="text-center">Pos</th>
+                <th>Regional Filial</th>
+                <th class="text-right">Pesquisas</th>
+                <th class="text-right">Share D1 (%)</th>
+                <th class="text-right">% Promotor</th>
+                <th class="text-right">% Neutro</th>
+                <th class="text-right">% Detrator</th>
+                <th class="text-right">NPS Real</th>
+                <th class="text-right">NPS s/ Regional</th>
+                <th class="text-right">Impacto LOO (p.p.)</th>
+                <th class="text-center">Classificação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">1º</td>
+                <td>Regional 110</td>
+                <td class="text-right">209</td>
+                <td class="text-right">4.51%</td>
+                <td class="text-right">87.6%</td>
+                <td class="text-right">6.7%</td>
+                <td class="text-right">5.7%</td>
+                <td class="text-right">81.8</td>
+                <td class="text-right">71.19</td>
+                <td class="text-right"><span class="badge-pos">+0.48</span></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">2º</td>
+                <td>Regional 114</td>
+                <td class="text-right">297</td>
+                <td class="text-right">6.41%</td>
+                <td class="text-right">86.5%</td>
+                <td class="text-right">7.1%</td>
+                <td class="text-right">6.4%</td>
+                <td class="text-right">80.1</td>
+                <td class="text-right">71.09</td>
+                <td class="text-right"><span class="badge-pos">+0.58</span></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">3º</td>
+                <td>Regional 115</td>
+                <td class="text-right">279</td>
+                <td class="text-right">6.02%</td>
+                <td class="text-right">85.3%</td>
+                <td class="text-right">6.5%</td>
+                <td class="text-right">8.2%</td>
+                <td class="text-right">77.1</td>
+                <td class="text-right">71.33</td>
+                <td class="text-right"><span class="badge-pos">+0.35</span></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">4º</td>
+                <td>Regional 117</td>
+                <td class="text-right">281</td>
+                <td class="text-right">6.06%</td>
+                <td class="text-right">84.7%</td>
+                <td class="text-right">6.8%</td>
+                <td class="text-right">8.5%</td>
+                <td class="text-right">76.2</td>
+                <td class="text-right">71.38</td>
+                <td class="text-right"><span class="badge-pos">+0.29</span></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">5º</td>
+                <td>Regional 113</td>
+                <td class="text-right">302</td>
+                <td class="text-right">6.52%</td>
+                <td class="text-right">82.1%</td>
+                <td class="text-right">7.3%</td>
+                <td class="text-right">10.6%</td>
+                <td class="text-right">71.5</td>
+                <td class="text-right">71.68</td>
+                <td class="text-right"><span class="badge-neg">-0.01</span></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">6º</td>
+                <td>Regional 119</td>
+                <td class="text-right">467</td>
+                <td class="text-right">10.08%</td>
+                <td class="text-right">82.7%</td>
+                <td class="text-right">6.0%</td>
+                <td class="text-right">11.3%</td>
+                <td class="text-right">71.3</td>
+                <td class="text-right">71.71</td>
+                <td class="text-right"><span class="badge-neg">-0.04</span></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">7º</td>
+                <td>Regional 122</td>
+                <td class="text-right">608</td>
+                <td class="text-right">13.12%</td>
+                <td class="text-right">81.7%</td>
+                <td class="text-right">7.6%</td>
+                <td class="text-right">10.7%</td>
+                <td class="text-right">71.1</td>
+                <td class="text-right">71.77</td>
+                <td class="text-right"><span class="badge-neg">-0.09</span></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">8º</td>
+                <td>Regional 112</td>
+                <td class="text-right">243</td>
+                <td class="text-right">5.24%</td>
+                <td class="text-right">81.9%</td>
+                <td class="text-right">6.6%</td>
+                <td class="text-right">11.5%</td>
+                <td class="text-right">70.4</td>
+                <td class="text-right">71.74</td>
+                <td class="text-right"><span class="badge-neg">-0.07</span></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">9º</td>
+                <td>Regional 118</td>
+                <td class="text-right">573</td>
+                <td class="text-right">12.36%</td>
+                <td class="text-right">80.8%</td>
+                <td class="text-right">8.2%</td>
+                <td class="text-right">11.0%</td>
+                <td class="text-right">69.8</td>
+                <td class="text-right">71.94</td>
+                <td class="text-right"><span class="badge-neg">-0.26</span></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">10º</td>
+                <td>Regional 116</td>
+                <td class="text-right">353</td>
+                <td class="text-right">7.62%</td>
+                <td class="text-right">79.3%</td>
+                <td class="text-right">9.6%</td>
+                <td class="text-right">11.0%</td>
+                <td class="text-right">68.3</td>
+                <td class="text-right">71.95</td>
+                <td class="text-right"><span class="badge-neg">-0.28</span></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+              <tr class="row-highlight" style="background: #FFF5F5;">
+                <td class="text-center"><strong>11º</strong></td>
+                <td><strong>REGIONAL 120 (Foco do Estudo)</strong></td>
+                <td class="text-right"><strong>594</strong></td>
+                <td class="text-right"><strong>12.82%</strong></td>
+                <td class="text-right"><strong>81.0%</strong></td>
+                <td class="text-right"><strong>5.7%</strong></td>
+                <td class="text-right"><strong>13.3%</strong></td>
+                <td class="text-right" style="color: var(--cb-danger);"><strong>67.7</strong></td>
+                <td class="text-right"><strong>72.26</strong></td>
+                <td class="text-right"><span class="badge-neg"><strong>-0.59</strong></span></td>
+                <td class="text-center"><span class="badge-nps-critico">Aperfeiçoamento (Ofensora)</span></td>
+              </tr>
+              <tr>
+                <td class="text-center">12º</td>
+                <td>Regional 121</td>
+                <td class="text-right">429</td>
+                <td class="text-right">9.26%</td>
+                <td class="text-right">78.8%</td>
+                <td class="text-right">9.8%</td>
+                <td class="text-right">11.4%</td>
+                <td class="text-right">67.4</td>
+                <td class="text-right">72.11</td>
+                <td class="text-right"><span class="badge-neg">-0.44</span></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: RANKING, DISPERSÃO & POLARIZAÇÃO DAS FILIAIS -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="slide-category">Visão de Rede Interna</div>
+        <h2 class="slide-title">Ranking Geral & Dispersão das 23 Filiais (Setembro/2026)</h2>
+        <p class="slide-subtitle">Gap de 72.7 p.p. entre a melhor e pior unidade; megastores concentram 44% do volume com 39 detratores</p>
+      </div>
+      <div class="slide-content">
+        <div class="table-container">
+          <table class="analise-table">
+            <thead>
+              <tr>
+                <th class="text-center">Filial</th>
+                <th>Tipo</th>
+                <th>Porte</th>
+                <th class="text-right">Pesquisas</th>
+                <th class="text-right">Share Reg</th>
+                <th class="text-right">Promotores</th>
+                <th class="text-right">Neutros</th>
+                <th class="text-right">Detratores</th>
+                <th class="text-right">% Promotor</th>
+                <th class="text-right">% Detrator</th>
+                <th class="text-right">NPS Filial</th>
+                <th class="text-center">Status NPS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: #F0FDF4;">
+                <td class="text-center"><strong>1224</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">8</td>
+                <td class="text-right">1.3%</td>
+                <td class="text-right">8</td>
+                <td class="text-right">0</td>
+                <td class="text-right">0</td>
+                <td class="text-right">100.0%</td>
+                <td class="text-right">0.0%</td>
+                <td class="text-right"><strong>100.0</strong></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr style="background: #F0FDF4;">
+                <td class="text-center"><strong>1034</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 3</span></td>
+                <td class="text-right">11</td>
+                <td class="text-right">1.9%</td>
+                <td class="text-right">10</td>
+                <td class="text-right">1</td>
+                <td class="text-right">0</td>
+                <td class="text-right">90.9%</td>
+                <td class="text-right">0.0%</td>
+                <td class="text-right"><strong>90.9</strong></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr style="background: #F0FDF4;">
+                <td class="text-center"><strong>1261</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 3</span></td>
+                <td class="text-right">15</td>
+                <td class="text-right">2.5%</td>
+                <td class="text-right">14</td>
+                <td class="text-right">0</td>
+                <td class="text-right">1</td>
+                <td class="text-right">93.3%</td>
+                <td class="text-right">6.7%</td>
+                <td class="text-right"><strong>86.7</strong></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr style="background: #F0FDF4;">
+                <td class="text-center"><strong>1525</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">14</td>
+                <td class="text-right">2.4%</td>
+                <td class="text-right">12</td>
+                <td class="text-right">2</td>
+                <td class="text-right">0</td>
+                <td class="text-right">85.7%</td>
+                <td class="text-right">0.0%</td>
+                <td class="text-right"><strong>85.7</strong></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1527</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">16</td>
+                <td class="text-right">2.7%</td>
+                <td class="text-right">13</td>
+                <td class="text-right">3</td>
+                <td class="text-right">0</td>
+                <td class="text-right">81.3%</td>
+                <td class="text-right">0.0%</td>
+                <td class="text-right"><strong>81.3</strong></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>735</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">10</td>
+                <td class="text-right">1.7%</td>
+                <td class="text-right">9</td>
+                <td class="text-right">0</td>
+                <td class="text-right">1</td>
+                <td class="text-right">90.0%</td>
+                <td class="text-right">10.0%</td>
+                <td class="text-right"><strong>80.0</strong></td>
+                <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+              </tr>
+              <tr class="row-highlight">
+                <td class="text-center"><strong>1210</strong></td>
+                <td>SHOPPING</td>
+                <td><span class="badge-porte">PORTE 6</span></td>
+                <td class="text-right"><strong>53</strong></td>
+                <td class="text-right"><strong>8.9%</strong></td>
+                <td class="text-right">47</td>
+                <td class="text-right">1</td>
+                <td class="text-right">5</td>
+                <td class="text-right">88.7%</td>
+                <td class="text-right">9.4%</td>
+                <td class="text-right"><strong>79.2</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade (Líder Shopping)</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1098</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 5</span></td>
+                <td class="text-right">42</td>
+                <td class="text-right">7.1%</td>
+                <td class="text-right">36</td>
+                <td class="text-right">2</td>
+                <td class="text-right">4</td>
+                <td class="text-right">85.7%</td>
+                <td class="text-right">9.5%</td>
+                <td class="text-right"><strong>76.2</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1031</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 6</span></td>
+                <td class="text-right">81</td>
+                <td class="text-right">13.6%</td>
+                <td class="text-right">69</td>
+                <td class="text-right">3</td>
+                <td class="text-right">9</td>
+                <td class="text-right">85.2%</td>
+                <td class="text-right">11.1%</td>
+                <td class="text-right"><strong>74.1</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade (Líder Rua)</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1072</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 3</span></td>
+                <td class="text-right">30</td>
+                <td class="text-right">5.1%</td>
+                <td class="text-right">25</td>
+                <td class="text-right">1</td>
+                <td class="text-right">4</td>
+                <td class="text-right">83.3%</td>
+                <td class="text-right">13.3%</td>
+                <td class="text-right"><strong>70.0</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1413</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 3</span></td>
+                <td class="text-right">13</td>
+                <td class="text-right">2.2%</td>
+                <td class="text-right">11</td>
+                <td class="text-right">0</td>
+                <td class="text-right">2</td>
+                <td class="text-right">84.6%</td>
+                <td class="text-right">15.4%</td>
+                <td class="text-right"><strong>69.2</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1220</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 4</span></td>
+                <td class="text-right">12</td>
+                <td class="text-right">2.0%</td>
+                <td class="text-right">10</td>
+                <td class="text-right">0</td>
+                <td class="text-right">2</td>
+                <td class="text-right">83.3%</td>
+                <td class="text-right">16.7%</td>
+                <td class="text-right"><strong>66.7</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>718</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">9</td>
+                <td class="text-right">1.5%</td>
+                <td class="text-right">7</td>
+                <td class="text-right">1</td>
+                <td class="text-right">1</td>
+                <td class="text-right">77.8%</td>
+                <td class="text-right">11.1%</td>
+                <td class="text-right"><strong>66.7</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr>
+                <td class="text-center"><strong>1172</strong></td>
+                <td>SHOPPING</td>
+                <td><span class="badge-porte">PORTE 6</span></td>
+                <td class="text-right">80</td>
+                <td class="text-right">13.5%</td>
+                <td class="text-right">64</td>
+                <td class="text-right">4</td>
+                <td class="text-right">12</td>
+                <td class="text-right">80.0%</td>
+                <td class="text-right">15.0%</td>
+                <td class="text-right"><strong>65.0</strong></td>
+                <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+              </tr>
+              <tr style="background: #FFFDF7;">
+                <td class="text-center"><strong>1008</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 4</span></td>
+                <td class="text-right">27</td>
+                <td class="text-right">4.5%</td>
+                <td class="text-right">21</td>
+                <td class="text-right">1</td>
+                <td class="text-right">5</td>
+                <td class="text-right">77.8%</td>
+                <td class="text-right">18.5%</td>
+                <td class="text-right"><strong>59.3</strong></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+              <tr style="background: #FEE2E2;">
+                <td class="text-center"><strong>3100</strong></td>
+                <td>SHOPPING</td>
+                <td><span class="badge-porte">PORTE 6</span></td>
+                <td class="text-right"><strong>100</strong></td>
+                <td class="text-right"><strong>16.8%</strong></td>
+                <td class="text-right">77</td>
+                <td class="text-right">5</td>
+                <td class="text-right">18</td>
+                <td class="text-right">77.0%</td>
+                <td class="text-right">18.0%</td>
+                <td class="text-right" style="color: var(--cb-danger);"><strong>59.0</strong></td>
+                <td class="text-center"><span class="badge-nps-critico">Crítico (Maior Ofensora)</span></td>
+              </tr>
+              <tr style="background: #FFFDF7;">
+                <td class="text-center"><strong>1226</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">13</td>
+                <td class="text-right">2.2%</td>
+                <td class="text-right">9</td>
+                <td class="text-right">2</td>
+                <td class="text-right">2</td>
+                <td class="text-right">69.2%</td>
+                <td class="text-right">15.4%</td>
+                <td class="text-right"><strong>53.8</strong></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+              <tr style="background: #FFFDF7;">
+                <td class="text-center"><strong>1144</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 4</span></td>
+                <td class="text-right">19</td>
+                <td class="text-right">3.2%</td>
+                <td class="text-right">14</td>
+                <td class="text-right">1</td>
+                <td class="text-right">4</td>
+                <td class="text-right">73.7%</td>
+                <td class="text-right">21.1%</td>
+                <td class="text-right"><strong>52.6</strong></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+              <tr style="background: #FFFDF7;">
+                <td class="text-center"><strong>1100</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">9</td>
+                <td class="text-right">1.5%</td>
+                <td class="text-right">6</td>
+                <td class="text-right">1</td>
+                <td class="text-right">2</td>
+                <td class="text-right">66.7%</td>
+                <td class="text-right">22.2%</td>
+                <td class="text-right"><strong>44.4</strong></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento</span></td>
+              </tr>
+              <tr style="background: #FFFDF7;">
+                <td class="text-center"><strong>1263</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 3</span></td>
+                <td class="text-right">9</td>
+                <td class="text-right">1.5%</td>
+                <td class="text-right">4</td>
+                <td class="text-right">5</td>
+                <td class="text-right">0</td>
+                <td class="text-right">44.4%</td>
+                <td class="text-right">0.0%</td>
+                <td class="text-right"><strong>44.4</strong></td>
+                <td class="text-center"><span class="badge-nps-aperfeicoamento">Aperfeiçoamento (55% Neutros)</span></td>
+              </tr>
+              <tr style="background: #FFF5F5;">
+                <td class="text-center"><strong>1391</strong></td>
+                <td>SHOPPING</td>
+                <td><span class="badge-porte">PORTE 3</span></td>
+                <td class="text-right">7</td>
+                <td class="text-right">1.2%</td>
+                <td class="text-right">5</td>
+                <td class="text-right">0</td>
+                <td class="text-right">2</td>
+                <td class="text-right">71.4%</td>
+                <td class="text-right">28.6%</td>
+                <td class="text-right" style="color: var(--cb-danger);"><strong>42.9</strong></td>
+                <td class="text-center"><span class="badge-nps-critico">Crítico</span></td>
+              </tr>
+              <tr style="background: #FFF5F5;">
+                <td class="text-center"><strong>1590</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">5</td>
+                <td class="text-right">0.8%</td>
+                <td class="text-right">3</td>
+                <td class="text-right">1</td>
+                <td class="text-right">1</td>
+                <td class="text-right">60.0%</td>
+                <td class="text-right">20.0%</td>
+                <td class="text-right" style="color: var(--cb-danger);"><strong>40.0</strong></td>
+                <td class="text-center"><span class="badge-nps-critico">Crítico</span></td>
+              </tr>
+              <tr style="background: #FEE2E2;">
+                <td class="text-center"><strong>2233</strong></td>
+                <td>RUA</td>
+                <td><span class="badge-porte">PORTE 2</span></td>
+                <td class="text-right">11</td>
+                <td class="text-right">1.9%</td>
+                <td class="text-right">7</td>
+                <td class="text-right">0</td>
+                <td class="text-right">4</td>
+                <td class="text-right">63.6%</td>
+                <td class="text-right">36.4%</td>
+                <td class="text-right" style="color: var(--cb-danger);"><strong>27.3</strong></td>
+                <td class="text-center"><span class="badge-nps-critico">Crítico (Lanterna)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="quote-box">
+          <strong>Síntese de Dispersão:</strong> Enquanto as <strong>Top 3 lojas consolidadas (1224, 1034, 1261)</strong> atingem média de 92.5 NPS sem detratores severos, a <strong>Filial 3100 (Shopping, 100 pesq)</strong> isoladamente gera 18 detratores e a <strong>Filial 2233</strong> atinge a pior taxa de detração (36.4%).
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: DECOMPOSIÇÃO DE IMPACTO LÍQUIDO DAS FILIAIS (LEAVE-ONE-OUT) -->
+    <section class="slide" data-slide="5">
+      <div class="slide-header">
+        <div class="slide-category">Diagnóstico Causal</div>
+        <h2 class="slide-title">Decomposição de Impacto Leave-One-Out & Matriz de Urgência</h2>
+        <p class="slide-subtitle">Filial 3100 puxa a regional para baixo em -1.76 p.p.; Filiais 1210 e 1031 sustentam +2.14 p.p. positivos</p>
+      </div>
+      <div class="slide-content">
+        <div class="split-view">
+          <div class="table-container">
+            <table class="analise-table">
+              <thead>
+                <tr>
+                  <th>Filial Alvo</th>
+                  <th class="text-right">Pesquisas</th>
+                  <th class="text-right">NPS</th>
+                  <th class="text-right">NPS s/ Loja</th>
+                  <th class="text-right">Impacto LOO</th>
+                  <th class="text-center">Ação Prioritária</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: #FEE2E2;">
+                  <td><strong>Filial 3100 (Shopping)</strong></td>
+                  <td class="text-right"><strong>100</strong></td>
+                  <td class="text-right" style="color: var(--cb-danger);">59.0</td>
+                  <td class="text-right">69.43</td>
+                  <td class="text-right"><span class="badge-neg"><strong>-1.76 p.p.</strong></span></td>
+                  <td class="text-center"><span class="badge-nps-critico">Intervenção Imediata</span></td>
+                </tr>
+                <tr style="background: #FEE2E2;">
+                  <td><strong>Filial 2233</strong></td>
+                  <td class="text-right">11</td>
+                  <td class="text-right" style="color: var(--cb-danger);">27.3</td>
+                  <td class="text-right">68.44</td>
+                  <td class="text-right"><span class="badge-neg">-0.76 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-critico">Plano de Choque</span></td>
+                </tr>
+                <tr style="background: #FFF5F5;">
+                  <td><strong>Filial 1144</strong></td>
+                  <td class="text-right">19</td>
+                  <td class="text-right" style="color: var(--cb-danger);">52.6</td>
+                  <td class="text-right">68.17</td>
+                  <td class="text-right"><span class="badge-neg">-0.50 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-critico">Auditoria Chão</span></td>
+                </tr>
+                <tr style="background: #FFF5F5;">
+                  <td><strong>Filial 1172 (Shopping)</strong></td>
+                  <td class="text-right">80</td>
+                  <td class="text-right">65.0</td>
+                  <td class="text-right">68.09</td>
+                  <td class="text-right"><span class="badge-neg">-0.42 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-aperfeicoamento">Revisão Balcão</span></td>
+                </tr>
+                <tr style="background: #FFF5F5;">
+                  <td><strong>Filial 1008</strong></td>
+                  <td class="text-right">27</td>
+                  <td class="text-right">59.3</td>
+                  <td class="text-right">68.08</td>
+                  <td class="text-right"><span class="badge-neg">-0.40 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-aperfeicoamento">Choque Retira</span></td>
+                </tr>
+                <tr>
+                  <td>Filial 1100</td>
+                  <td class="text-right">9</td>
+                  <td class="text-right">44.4</td>
+                  <td class="text-right">68.03</td>
+                  <td class="text-right"><span class="badge-neg">-0.36 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-aperfeicoamento">Monitoramento</span></td>
+                </tr>
+                <tr>
+                  <td>Filial 1263</td>
+                  <td class="text-right">9</td>
+                  <td class="text-right">44.4</td>
+                  <td class="text-right">68.03</td>
+                  <td class="text-right"><span class="badge-neg">-0.36 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-aperfeicoamento">Conversão Neutros</span></td>
+                </tr>
+                <tr class="row-highlight">
+                  <td><strong>Filial 1210 (Impulsionadora)</strong></td>
+                  <td class="text-right"><strong>53</strong></td>
+                  <td class="text-right" style="color: var(--cb-success);"><strong>79.2</strong></td>
+                  <td class="text-right"><strong>66.54</strong></td>
+                  <td class="text-right"><span class="badge-pos"><strong>+1.13 p.p.</strong></span></td>
+                  <td class="text-center"><span class="badge-nps-excelente">Benchmark Shopping</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Filial 1031 (Impulsionadora)</strong></td>
+                  <td class="text-right"><strong>81</strong></td>
+                  <td class="text-right" style="color: var(--cb-success);">74.1</td>
+                  <td class="text-right">66.67</td>
+                  <td class="text-right"><span class="badge-pos">+1.01 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-excelente">Sustentação Rua</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Filial 1098</strong></td>
+                  <td class="text-right">42</td>
+                  <td class="text-right" style="color: var(--cb-success);">76.2</td>
+                  <td class="text-right">67.03</td>
+                  <td class="text-right"><span class="badge-pos">+0.65 p.p.</span></td>
+                  <td class="text-center"><span class="badge-nps-excelente">Sustentação</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="matrix-grid">
+            <div class="matrix-card q-critico">
+              <div class="matrix-title" style="color: var(--cb-danger);">
+                <span>Q1: Urgência Crítica</span>
+                <span class="badge-neg">-2.58 p.p.</span>
+              </div>
+              <p style="font-size: 11px; color: var(--cb-gray-700);"><strong>Filiais 3100, 1172 e 1008:</strong> 207 pesquisas e 35 detratores acumulados. Filial 3100 é a maior ofensora com -1.76 p.p. isolada decorrente de entrega pesada e pacote.</p>
+            </div>
+            <div class="matrix-card q-alerta">
+              <div class="matrix-title" style="color: var(--cb-warning);">
+                <span>Q2: Alerta Operacional</span>
+                <span class="badge-neg">-1.82 p.p.</span>
+              </div>
+              <p style="font-size: 11px; color: var(--cb-gray-700);"><strong>Filiais 2233, 1144, 1391 e 1590:</strong> Amostras menores porém com índices de detração alarmantes (20% a 36.4%). Risco de atrito interpessoal no chão de loja.</p>
+            </div>
+            <div class="matrix-card q-estavel">
+              <div class="matrix-title" style="color: var(--cb-info);">
+                <span>Q3: Estabilidade & Conversão</span>
+                <span>Neutro</span>
+              </div>
+              <p style="font-size: 11px; color: var(--cb-gray-700);"><strong>Filiais 1100, 1263, 1226, 1220, 718:</strong> Impacto individual nulo ou ligeiramente negativo. Filial 1263 possui 55.6% de clientes neutros a converter.</p>
+            </div>
+            <div class="matrix-card q-fortaleza">
+              <div class="matrix-title" style="color: var(--cb-success);">
+                <span>Q4: Pilares de Sustentação</span>
+                <span class="badge-pos">+3.87 p.p.</span>
+              </div>
+              <p style="font-size: 11px; color: var(--cb-gray-700);"><strong>Filiais 1210, 1031, 1098, 1261, 1525, 1224:</strong> 221 pesquisas com NPS médio de 78.4. Evitam que a regional caia para a zona crítica (< 65 NPS).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: DIAGNÓSTICO DAS JORNADAS DE ATENDIMENTO E CUMPRIMENTO -->
+    <section class="slide" data-slide="6">
+      <div class="slide-header">
+        <div class="slide-category">Jornadas do Cliente</div>
+        <h2 class="slide-title">Desempenho por Modalidade de Cumprimento & Pontos de Fricção</h2>
+        <p class="slide-subtitle">Vendedor Online e Retira Loja concentram 62% do volume e somam 51 detratores operacionais</p>
+      </div>
+      <div class="slide-content">
+        <div class="journey-grid">
+          <div class="journey-card" style="border-top-color: var(--cb-success);">
+            <div>
+              <div class="kpi-label">Saída Loja (Pronta Entrega)</div>
+              <div class="kpi-val" style="color: var(--cb-success);">84.4</div>
+              <div style="font-size: 11px; color: var(--cb-gray-600); margin-top: 4px;">
+                <strong>90 Pesquisas</strong> (15.2% share)
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--cb-gray-700); line-height: 1.35; margin-top: 8px;">
+              <strong>90.0% Promotores</strong> e apenas 5 detratores. Cumprimento imediato na loja reduz atrito e gera experiência tangível.
+            </div>
+          </div>
+
+          <div class="journey-card" style="border-top-color: var(--cb-blue-primary);">
+            <div>
+              <div class="kpi-label">Vendedor Online / Sai CD</div>
+              <div class="kpi-val">69.9</div>
+              <div style="font-size: 11px; color: var(--cb-gray-600); margin-top: 4px;">
+                <strong>196 Pesquisas</strong> (33.0% share)
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--cb-gray-700); line-height: 1.35; margin-top: 8px;">
+              <strong>Maior canal da regional</strong>. 26 detratores (13.3%). Fricção severa em quebras de frete de transportadoras parceiras.
+            </div>
+          </div>
+
+          <div class="journey-card" style="border-top-color: var(--cb-warning);">
+            <div>
+              <div class="kpi-label">Retira Loja (Click & Collect)</div>
+              <div class="kpi-val" style="color: var(--cb-warning);">63.8</div>
+              <div style="font-size: 11px; color: var(--cb-gray-600); margin-top: 4px;">
+                <strong>174 Pesquisas</strong> (29.3% share)
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--cb-gray-700); line-height: 1.35; margin-top: 8px;">
+              <strong>25 Detratores (14.4%)</strong>. Gargalo crônico no pacote: falta de operador no almoço e lentidão na conferência.
+            </div>
+          </div>
+
+          <div class="journey-card" style="border-top-color: var(--cb-warning);">
+            <div>
+              <div class="kpi-label">Entrega CD (Tradicional)</div>
+              <div class="kpi-val" style="color: var(--cb-warning);">61.9</div>
+              <div style="font-size: 11px; color: var(--cb-gray-600); margin-top: 4px;">
+                <strong>126 Pesquisas</strong> (21.2% share)
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--cb-gray-700); line-height: 1.35; margin-top: 8px;">
+              <strong>19 Detratores (15.1%)</strong>. Falta de aviso de janela horária, mercadoria amassada e recusa de subida de escadas.
+            </div>
+          </div>
+
+          <div class="journey-card" style="border-top-color: var(--cb-danger); background: #FFFBFB;">
+            <div>
+              <div class="kpi-label">Cancelamento / Pós-Venda</div>
+              <div class="kpi-val" style="color: var(--cb-danger);">0.0</div>
+              <div style="font-size: 11px; color: var(--cb-gray-600); margin-top: 4px;">
+                <strong>8 Pesquisas</strong> (1.3% share)
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--cb-gray-700); line-height: 1.35; margin-top: 8px;">
+              <strong>50% Detratores</strong>. Venda sem estoque no CD e morosidade extrema para liberação de reembolso financeiro.
+            </div>
+          </div>
+        </div>
+
+        <div class="split-view" style="flex: 0.85;">
+          <div class="side-panel" style="background: var(--cb-white);">
+            <div class="side-panel-title">Diagnóstico de Estrangulamento: Físico vs Logística CD</div>
+            <ul class="takeaway-list">
+              <li><strong>Logística Centralizada CD</strong>: A esteira de entrega CD (Vendedor Online + Sai CD) acumula <strong>45 detratores (57% da detração total)</strong> da Regional 120. Clientes relatam ausência de aviso de janela e motoristas que recusam subir escadas.</li>
+              <li><strong>Gargalo do Retira Loja</strong>: Com 174 avaliações e NPS 63.8, o canal perde 20.6 pts frente à Saída Loja (84.4). A dor está na espera no piso superior e falta de atendentes durante o almoço.</li>
+            </ul>
+          </div>
+          <div class="side-panel" style="background: var(--cb-white);">
+            <div class="side-panel-title">Diretrizes Imediatas por Modalidade</div>
+            <ul class="takeaway-list">
+              <li><strong>Fast-Track Retira Loja</strong>: Implantação de separação prévia de mercadoria para entrega em até <strong>4 minutos</strong> no balcão e fila preferencial de idosos.</li>
+              <li><strong>Rastreamento Ativo WhatsApp</strong>: Aviso mandatório de saída para entrega em D-1 e D-0 com janela de 3 horas para produtos de Linha Branca.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: SEGMENTAÇÃO OPERACIONAL: PORTE, TIPO E DIA DA SEMANA -->
+    <section class="slide" data-slide="7">
+      <div class="slide-header">
+        <div class="slide-category">Segmentação Operacional</div>
+        <h2 class="slide-title">Estrutura de Loja, Canal Físico & Efeito de Final de Semana</h2>
+        <p class="slide-subtitle">Shoppings e Domingos sofrem com subdimensionamento e registram forte descolamento negativo</p>
+      </div>
+      <div class="slide-content">
+        <div class="split-view-equal">
+          <div class="chart-card">
+            <div class="chart-header">Desempenho por Porte de Loja (Setembro/2026)</div>
+            <table class="analise-table">
+              <thead>
+                <tr>
+                  <th>Porte Loja</th>
+                  <th class="text-right">Pesquisas</th>
+                  <th class="text-right">Share (%)</th>
+                  <th class="text-right">% Promotor</th>
+                  <th class="text-right">% Detrator</th>
+                  <th class="text-right">NPS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>PORTE 5</strong> (Grandes Lojas)</td>
+                  <td class="text-right">42</td>
+                  <td class="text-right">7.1%</td>
+                  <td class="text-right">85.7%</td>
+                  <td class="text-right">9.5%</td>
+                  <td class="text-right"><span class="badge-pos">76.2</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PORTE 3</strong> (Intermediárias)</td>
+                  <td class="text-right">85</td>
+                  <td class="text-right">14.3%</td>
+                  <td class="text-right">81.2%</td>
+                  <td class="text-right">10.6%</td>
+                  <td class="text-right">70.6</td>
+                </tr>
+                <tr style="background: #FAFCFF;">
+                  <td><strong>PORTE 6</strong> (Megastores)</td>
+                  <td class="text-right"><strong>314</strong></td>
+                  <td class="text-right"><strong>52.9%</strong></td>
+                  <td class="text-right">81.8%</td>
+                  <td class="text-right">14.0%</td>
+                  <td class="text-right"><strong>67.8</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>PORTE 2</strong> (Compactas)</td>
+                  <td class="text-right">95</td>
+                  <td class="text-right">16.0%</td>
+                  <td class="text-right">77.9%</td>
+                  <td class="text-right">11.6%</td>
+                  <td class="text-right">66.3</td>
+                </tr>
+                <tr style="background: #FFF5F5;">
+                  <td><strong>PORTE 4</strong> (Porte Médio-Alto)</td>
+                  <td class="text-right">58</td>
+                  <td class="text-right">9.8%</td>
+                  <td class="text-right">77.6%</td>
+                  <td class="text-right">19.0%</td>
+                  <td class="text-right" style="color: var(--cb-danger);"><strong>58.6</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top: 10px; border-top: 1px solid var(--cb-gray-200); padding-top: 8px;">
+              <div class="chart-header">Tipo de Loja: Rua vs Shopping</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div class="kpi-card" style="border-top-color: var(--cb-blue-primary);">
+                  <div class="kpi-label">Lojas de Rua (354 pesq)</div>
+                  <div class="kpi-val">69.5</div>
+                  <div class="kpi-delta neu">11.9% Detração • Share 59.6%</div>
+                </div>
+                <div class="kpi-card danger">
+                  <div class="kpi-label">Shopping (240 pesq)</div>
+                  <div class="kpi-val" style="color: var(--cb-danger);">65.0</div>
+                  <div class="kpi-delta neg">15.4% Detração • Gap -4.5 pts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">Estresse Operacional por Dia da Semana</div>
+            <div class="chart-container" style="max-height: 140px;">
+              <canvas id="chartDiaSemana"></canvas>
+            </div>
+
+            <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="kpi-card">
+                <div class="kpi-label">Dias Úteis (Seg - Sex)</div>
+                <div class="kpi-val">67.8</div>
+                <div class="kpi-delta neu">407 pesq • 13.0% Detração</div>
+              </div>
+              <div class="kpi-card warning">
+                <div class="kpi-label">Fim de Semana (Sáb - Dom)</div>
+                <div class="kpi-val" style="color: var(--cb-warning);">67.4</div>
+                <div class="kpi-delta neg">187 pesq • 13.9% Detração</div>
+              </div>
+            </div>
+
+            <div class="quote-box danger" style="margin-top: 8px;">
+              <strong>Gargalo Dominical:</strong> Domingos despencam para <strong>56.5 NPS</strong> (17.4% detração) e Quartas batem <strong>59.1 NPS</strong> (15.1% detração) decorrente de equipe reduzida em shoppings e acúmulo de entregas represadas.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: SENSIBILIDADE POR CATEGORIA DE PRODUTO -->
+    <section class="slide" data-slide="8">
+      <div class="slide-header">
+        <div class="slide-category">Inteligência de Sortimento</div>
+        <h2 class="slide-title">Sensibilidade de NPS por Categoria de SKU & Fricções de Produto</h2>
+        <p class="slide-subtitle">Linha Branca responde por 54% das avaliações e concentra 22 detratores diretos por quebra logística</p>
+      </div>
+      <div class="slide-content">
+        <div class="split-view">
+          <div class="table-container">
+            <table class="analise-table">
+              <thead>
+                <tr>
+                  <th>Categoria de SKU</th>
+                  <th class="text-right">Pesquisas</th>
+                  <th class="text-right">Share (%)</th>
+                  <th class="text-right">% Promotor</th>
+                  <th class="text-right">% Detrator</th>
+                  <th class="text-right">NPS</th>
+                  <th class="text-center">Nível de Risco</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row-highlight">
+                  <td><strong>LINHA BRANCA</strong></td>
+                  <td class="text-right"><strong>170</strong></td>
+                  <td class="text-right"><strong>54.5%</strong></td>
+                  <td class="text-right">83.5%</td>
+                  <td class="text-right">12.9%</td>
+                  <td class="text-right"><strong>70.6</strong></td>
+                  <td class="text-center"><span class="badge-nps-qualidade">Core / 22 Detratores</span></td>
+                </tr>
+                <tr style="background: #FFFDF7;">
+                  <td>QUARTO E MESAS/CADEIRAS</td>
+                  <td class="text-right">39</td>
+                  <td class="text-right">12.5%</td>
+                  <td class="text-right">76.9%</td>
+                  <td class="text-right">17.9%</td>
+                  <td class="text-right" style="color: var(--cb-warning);"><strong>59.0</strong></td>
+                  <td class="text-center"><span class="badge-nps-aperfeicoamento">Alto Risco Montagem</span></td>
+                </tr>
+                <tr style="background: #FFF5F5;">
+                  <td>SALA E COZ E ESTOF E ESC</td>
+                  <td class="text-right">31</td>
+                  <td class="text-right">9.9%</td>
+                  <td class="text-right">67.7%</td>
+                  <td class="text-right">16.1%</td>
+                  <td class="text-right" style="color: var(--cb-danger);"><strong>51.6</strong></td>
+                  <td class="text-center"><span class="badge-nps-critico">Crítico (Avaria Transporte)</span></td>
+                </tr>
+                <tr style="background: #FFFDF7;">
+                  <td>COLCHÕES E INFANTIL</td>
+                  <td class="text-right">24</td>
+                  <td class="text-right">7.7%</td>
+                  <td class="text-right">79.2%</td>
+                  <td class="text-right">20.8%</td>
+                  <td class="text-right" style="color: var(--cb-warning);"><strong>58.3</strong></td>
+                  <td class="text-center"><span class="badge-nps-aperfeicoamento">Atraso de Frete</span></td>
+                </tr>
+                <tr>
+                  <td>TELAS (TVs / Monitores)</td>
+                  <td class="text-right">13</td>
+                  <td class="text-right">4.2%</td>
+                  <td class="text-right">84.6%</td>
+                  <td class="text-right">7.7%</td>
+                  <td class="text-right"><span class="badge-pos">76.9</span></td>
+                  <td class="text-center"><span class="badge-nps-qualidade">Estável</span></td>
+                </tr>
+                <tr>
+                  <td>LIVING E ENTERTAINMENT</td>
+                  <td class="text-right">10</td>
+                  <td class="text-right">3.2%</td>
+                  <td class="text-right">90.0%</td>
+                  <td class="text-right">10.0%</td>
+                  <td class="text-right"><span class="badge-pos">80.0</span></td>
+                  <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+                </tr>
+                <tr style="background: #FEE2E2;">
+                  <td>INFORMÁTICA E TABLETS</td>
+                  <td class="text-right">8</td>
+                  <td class="text-right">2.6%</td>
+                  <td class="text-right">50.0%</td>
+                  <td class="text-right">50.0%</td>
+                  <td class="text-right" style="color: var(--cb-danger);"><strong>0.0</strong></td>
+                  <td class="text-center"><span class="badge-nps-critico">Crítico (4 Detratores)</span></td>
+                </tr>
+                <tr>
+                  <td>BELEZA E PORTÁTEIS</td>
+                  <td class="text-right">7</td>
+                  <td class="text-right">2.2%</td>
+                  <td class="text-right">85.7%</td>
+                  <td class="text-right">14.3%</td>
+                  <td class="text-right">71.4</td>
+                  <td class="text-center"><span class="badge-nps-qualidade">Qualidade</span></td>
+                </tr>
+                <tr>
+                  <td>TELEFONIA E WEARABLES</td>
+                  <td class="text-right">3</td>
+                  <td class="text-right">1.0%</td>
+                  <td class="text-right">100.0%</td>
+                  <td class="text-right">0.0%</td>
+                  <td class="text-right"><span class="badge-pos">100.0</span></td>
+                  <td class="text-center"><span class="badge-nps-excelente">Excelente</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="side-panel">
+            <div class="side-panel-title">Mapeamento de Atritos por Categoria Core</div>
+            <ul class="takeaway-list">
+              <li><strong>Linha Branca (Ticket Médio R$ 2.400+)</strong>: Concentra <strong>22 detratores</strong> em Setembro. Principais ofensas: entregador que recusa subir escadas com geladeiras, cobrança indevida de "caixinha" e entrega cancelada por falta de estoque real.</li>
+              <li><strong>Móveis & Estofados (NPS 51.6 a 59.0)</strong>: Categoria com maior índice de avaria física e descolamento na montagem. Clientes relatam atrasos de 5 dias na entrega e falta de agendamento de montador.</li>
+              <li><strong>Informática (NPS 0.0)</strong>: 50% de detração decorrente de produtos com especificações divergentes das prometidas no balcão e falta de suporte para configuração.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: DIAGNÓSTICO DE FRICÇÃO: ATRIBUTOS FECHADOS (GOSTOU VS. NÃO GOSTOU) -->
+    <section class="slide" data-slide="9">
+      <div class="slide-header">
+        <div class="slide-category">Atributos de Pesquisa</div>
+        <h2 class="slide-title">Alavancas de Encantamento vs. Detratores Fechados de Jornada</h2>
+        <p class="slide-subtitle">Variedade de produtos e estrutura sustentam aprovação; serviços adicionais e frete geram atritos</p>
+      </div>
+      <div class="slide-content">
+        <div class="split-view-equal">
+          <div class="chart-card">
+            <div class="chart-header" style="color: var(--cb-success);">Top Atributos de Encantamento ("O que Você Gostou")</div>
+            <table class="analise-table">
+              <thead>
+                <tr>
+                  <th>Atributo Positivo Assinalado</th>
+                  <th class="text-right">Menções</th>
+                  <th class="text-right">% Base</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Produtos oferecidos pela loja</strong></td>
+                  <td class="text-right"><strong>169</strong></td>
+                  <td class="text-right"><span class="badge-pos">28.5%</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Estrutura da Loja física</strong></td>
+                  <td class="text-right">168</td>
+                  <td class="text-right"><span class="badge-pos">28.3%</span></td>
+                </tr>
+                <tr>
+                  <td>Disponibilidade do vendedor p/ apoio futuro</td>
+                  <td class="text-right">152</td>
+                  <td class="text-right">25.6%</td>
+                </tr>
+                <tr>
+                  <td>Atendimento na Loja onde fez a compra</td>
+                  <td class="text-right">129</td>
+                  <td class="text-right">21.7%</td>
+                </tr>
+                <tr>
+                  <td>Entrega da sua compra</td>
+                  <td class="text-right">97</td>
+                  <td class="text-right">16.3%</td>
+                </tr>
+                <tr>
+                  <td>Preços que a loja oferece</td>
+                  <td class="text-right">89</td>
+                  <td class="text-right">15.0%</td>
+                </tr>
+                <tr>
+                  <td>Cordialidade e atenção da equipe</td>
+                  <td class="text-right">86</td>
+                  <td class="text-right">14.5%</td>
+                </tr>
+                <tr>
+                  <td>Facilidade para aprovação do crediário</td>
+                  <td class="text-right">85</td>
+                  <td class="text-right">14.3%</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="quote-box success" style="margin-top: 8px;">
+              <strong>Fortaleza de Sortimento:</strong> Mix de produtos e modernização do ambiente de loja são citados por mais de 28% dos clientes como ponto alto da experiência.
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header" style="color: var(--cb-danger);">Top Atributos Ofensores ("O que Não Gostou")</div>
+            <table class="analise-table">
+              <thead>
+                <tr>
+                  <th>Ofensor de Jornada Assinalado</th>
+                  <th class="text-right">Menções</th>
+                  <th class="text-right">% Base</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: #FFF5F5;">
+                  <td><strong>Oferta de serviços adicionais (garantia/seguro)</strong></td>
+                  <td class="text-right"><strong>12</strong></td>
+                  <td class="text-right"><span class="badge-neg">2.0%</span></td>
+                </tr>
+                <tr style="background: #FFF5F5;">
+                  <td><strong>Entrega da sua compra</strong></td>
+                  <td class="text-right">10</td>
+                  <td class="text-right"><span class="badge-neg">1.7%</span></td>
+                </tr>
+                <tr>
+                  <td>Estrutura física da Loja</td>
+                  <td class="text-right">9</td>
+                  <td class="text-right">1.5%</td>
+                </tr>
+                <tr>
+                  <td>Prazo de entrega: Prometido vs Realizado</td>
+                  <td class="text-right">9</td>
+                  <td class="text-right">1.5%</td>
+                </tr>
+                <tr>
+                  <td>Clareza das condições, taxas e parcelas do carnê</td>
+                  <td class="text-right">9</td>
+                  <td class="text-right">1.5%</td>
+                </tr>
+                <tr>
+                  <td>Vendedor não disponível p/ apoio futuro</td>
+                  <td class="text-right">9</td>
+                  <td class="text-right">1.5%</td>
+                </tr>
+                <tr>
+                  <td>Valor do frete cobrado</td>
+                  <td class="text-right">8</td>
+                  <td class="text-right">1.3%</td>
+                </tr>
+                <tr>
+                  <td>Rastreamento e status do pedido</td>
+                  <td class="text-right">8</td>
+                  <td class="text-right">1.3%</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="quote-box danger" style="margin-top: 8px;">
+              <strong>Alerta de Venda Casada:</strong> A insistência em garantias e seguros adicionais lidera as menções negativas e detona a confiança do cliente no fechamento do caixa.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: VOZ DO CLIENTE (VoC) EM PROFUNDIDADE: MINERAÇÃO DE ATRITOS -->
+    <section class="slide" data-slide="10">
+      <div class="slide-header">
+        <div class="slide-category">Voz do Cliente (VoC)</div>
+        <h2 class="slide-title">Mineração Semântica dos Comentários de Neutros e Detratores</h2>
+        <p class="slide-subtitle">Extração contextual de causas-raiz a partir dos relatos literais de clientes insatisfeitos na Regional 120</p>
+      </div>
+      <div class="slide-content">
+        <div class="cluster-grid">
+          <div class="cluster-card">
+            <div class="matrix-title" style="color: var(--cb-danger);">
+              <span>Cluster 1: Conduta de Transportadoras & Recusa de Entrega</span>
+              <span class="badge-neg">42% dos Verbatins</span>
+            </div>
+            <p style="font-size: 11px; color: var(--cb-gray-700);">
+              <strong>Causa-Raiz:</strong> Motoristas terceirizados cobram caixinha por fora, recusam subir escadas com refrigeradores, batem mercadorias no portão ou entregam em endereço errado.
+            </p>
+            <div class="quote-box danger">
+              "O vendedor me garantiu que na entrega eles subiriam a geladeira... e o transporte disse que é terceirizado, e que não iria subir a mercadoria, que o vendedor fala isso somente para vender o produto."<br>
+              <strong>— Cliente Detrator (Nota 4), Filial 3100</strong>
+            </div>
+          </div>
+
+          <div class="cluster-card">
+            <div class="matrix-title" style="color: var(--cb-danger);">
+              <span>Cluster 2: Fila Crítica & Despreparo no Retira Loja</span>
+              <span class="badge-neg">29% dos Verbatins</span>
+            </div>
+            <p style="font-size: 11px; color: var(--cb-gray-700);">
+              <strong>Causa-Raiz:</strong> Subdimensionamento de funcionários no horário de almoço, desrespeito à ordem de chegada/idosos e atendimento ríspido no balcão de pacotes.
+            </p>
+            <div class="quote-box danger">
+              "Na retirada do produto o atendimento foi péssimo, um rapaz despreparado... quando questionei 'pode me atender por favor', ele se recusou... falei 'vou cancelar a compra' e ele disse 'cancela' e virou as costas. Tenho 60 anos..."<br>
+              <strong>— Cliente Detrator (Nota 2), Filial 1008</strong>
+            </div>
+          </div>
+
+          <div class="cluster-card">
+            <div class="matrix-title" style="color: var(--cb-danger);">
+              <span>Cluster 3: Ruptura de Estoque & Falha no Cancelamento</span>
+              <span class="badge-neg">16% dos Verbatins</span>
+            </div>
+            <p style="font-size: 11px; color: var(--cb-gray-700);">
+              <strong>Causa-Raiz:</strong> Venda assistida de produto sem saldo físico no CD, cancelamento arbitrário por email e retenção indevida do reembolso financeiro do consumidor.
+            </p>
+            <div class="quote-box danger">
+              "Estou precisando da geladeira com urgência, e simplesmente recebo um email falando que minha entrega foi cancelada, sem dar nenhum motivo... E outra coisa ainda não recebi meu reembolso. Tenho uma filha de 2 anos..."<br>
+              <strong>— Cliente Detrator (Nota 0), Filial 1072</strong>
+            </div>
+          </div>
+
+          <div class="cluster-card">
+            <div class="matrix-title" style="color: var(--cb-danger);">
+              <span>Cluster 4: Práticas de Venda Casada & Juros do Carnê</span>
+              <span class="badge-neg">13% dos Verbatins</span>
+            </div>
+            <p style="font-size: 11px; color: var(--cb-gray-700);">
+              <strong>Causa-Raiz:</strong> Embutimento não autorizado de seguros/garantias estendidas na parcela e percepção de encargos abusivos no crediário.
+            </p>
+            <div class="quote-box danger">
+              "Vocês fizeram uma venda casada seus..." / "Juros menores no carnê porque a gente acaba pagando 2x o produto."<br>
+              <strong>— Clientes Detratores (Notas 0 e 6), Filiais 1413 e 735</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: RISCO DE CHURN, PERDA EM VENDAS & MATRIZ DE ALÇADA -->
+    <section class="slide" data-slide="11">
+      <div class="slide-header">
+        <div class="slide-category">Risco Comercial & Governança</div>
+        <h2 class="slide-title">Modelagem de Risco de Churn & Segregação Estrita de Alçadas</h2>
+        <p class="slide-subtitle">113 clientes sob fricção representam R$ 237 mil em GMV sob risco direto na Regional 120</p>
+      </div>
+      <div class="slide-content">
+        <div class="split-view">
+          <div class="chart-card">
+            <div class="chart-header">Modelagem de Exposição Financeira & LTV</div>
+            <div class="kpi-row" style="margin-bottom: 10px;">
+              <div class="kpi-card danger">
+                <div class="kpi-label">Clientes em Risco (Set/26)</div>
+                <div class="kpi-val">113</div>
+                <div class="kpi-delta neg">79 Detratores + 34 Neutros</div>
+              </div>
+              <div class="kpi-card danger">
+                <div class="kpi-label">GMV sob Fricção</div>
+                <div class="kpi-val">R$ 237K</div>
+                <div class="kpi-delta neg">Ticket Médio R$ 2.100+</div>
+              </div>
+            </div>
+
+            <div class="side-panel-title" style="margin-top: 4px;">Impacto Financeiro no Ciclo de Vida (LTV)</div>
+            <ul class="takeaway-list" style="margin-top: 8px;">
+              <li><strong>Taxa de Evasão Projetada</strong>: Clientes que sofrem recusa de entrega ou avaria de produto apresentam probabilidade de recompra em 12 meses <strong>68% menor</strong> frente a clientes promotores.</li>
+              <li><strong>Risco Anualizado de Perda</strong>: A persistência de 113 clientes insatisfeitos/mês projeta uma evasão anualizada de <strong>R$ 1,9 milhão em GMV direto</strong> para redes concorrentes.</li>
+              <li><strong>Concentração em Linha Branca</strong>: Mais de 58% da perda potencial está concentrada em refrigeradores, lavadoras e estofados, produtos âncora do carnê.</li>
+            </ul>
+          </div>
+
+          <div class="side-panel" style="background: var(--cb-white);">
+            <div class="side-panel-title">Matriz de Segregação Estrita de Alçadas</div>
+            
+            <div style="margin-top: 4px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--cb-blue-navy); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: var(--cb-blue-primary);">●</span> Alçada de Loja / Regional (Ação Imediata)
+              </div>
+              <ul class="takeaway-list" style="font-size: 11px;">
+                <li><strong>Escala do Balcão de Pacote</strong>: Eliminar posto vago durante horário de almoço no Retira Loja (Filiais 1172 e 1008).</li>
+                <li><strong>Reciclagem e Postura</strong>: Intervenção direta e reciclagem da equipe de entrega na Filial 1008 e Filial 2233.</li>
+                <li><strong>Banimento de Venda Casada</strong>: Veda absoluta de embutir seguros sem anuência expressa do cliente (Filial 1413).</li>
+                <li><strong>Teste de Aparelhos em Balcão</strong>: Permitir teste imediato de eletroportáteis antes da liberação (Filial 1590 e 2233).</li>
+              </ul>
+            </div>
+
+            <div style="margin-top: 10px; border-top: 1px solid var(--cb-gray-200); padding-top: 8px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--cb-danger); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: var(--cb-danger);">●</span> Alçada Corporativa / Cadeia / Logística
+              </div>
+              <ul class="takeaway-list danger" style="font-size: 11px;">
+                <li><strong>Auditoria de Transportadoras 3P</strong>: Penalização contratual e expurgo de motoristas que exigem "caixinha" ou recusam subir escadas.</li>
+                <li><strong>Janela Horária via WhatsApp</strong>: Notificação prévia em D-1 e D-0 com janela de 3h para entregas de Linha Branca.</li>
+                <li><strong>Trava de Ruptura de Estoque</strong>: Impedir venda assistida no Vendedor Online sem saldo confirmado no CD parceiro.</li>
+                <li><strong>Estorno Fast-Track</strong>: Autonomia para reembolso financeiro em até 48h para pedidos cancelados por falta de saldo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: PLANO DE AÇÃO TÁTICO (5W2H) & MATRIZ DE COMPROMISSOS -->
+    <section class="slide" data-slide="12">
+      <div class="slide-header">
+        <div class="slide-category">Plano de Execução</div>
+        <h2 class="slide-title">Plano Tático 5W2H de Choque Operacional & Compromissos</h2>
+        <p class="slide-subtitle">Ações corretivas imediatas direcionadas às unidades do quadrante crítico para a safra de Outubro</p>
+      </div>
+      <div class="slide-content">
+        <div class="table-container">
+          <table class="analise-table">
+            <thead>
+              <tr>
+                <th>Ação Corretiva (O Quê)</th>
+                <th>Filial Alvo</th>
+                <th>Causa-Raiz (Por Quê)</th>
+                <th>Responsável (Quem)</th>
+                <th>Prazo (Quando)</th>
+                <th>Métrica de Controle</th>
+                <th class="text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: #FFF5F5;">
+                <td><strong>Choque Operacional no Retira Loja</strong></td>
+                <td>Filial 3100 e 1172</td>
+                <td>Filas excessivas e posto desguarnecido no almoço</td>
+                <td>Gerentes de Loja</td>
+                <td><strong>Imediato (D+3)</strong></td>
+                <td>SLA Retirada < 4 min</td>
+                <td class="text-center"><span class="badge-nps-critico">Prioridade 1</span></td>
+              </tr>
+              <tr style="background: #FFF5F5;">
+                <td><strong>Auditoria Severa em Transportadoras 3P</strong></td>
+                <td>Regional 120 (Geral)</td>
+                <td>Recusa de subida de escadas e cobrança de caixinha</td>
+                <td>Diretoria de Logística</td>
+                <td><strong>D+7</strong></td>
+                <td>Reclamações frete < 1.0%</td>
+                <td class="text-center"><span class="badge-nps-critico">Prioridade 1</span></td>
+              </tr>
+              <tr style="background: #FFF5F5;">
+                <td><strong>Reciclagem de Atendimento de Pacote</strong></td>
+                <td>Filial 1008</td>
+                <td>Rispidez no balcão e desrespeito com idosos</td>
+                <td>Gerente Regional + RH</td>
+                <td><strong>D+5</strong></td>
+                <td>Zerar detração de pacote</td>
+                <td class="text-center"><span class="badge-nps-critico">Prioridade 1</span></td>
+              </tr>
+              <tr>
+                <td><strong>Intervenção e Treinamento de Piso</strong></td>
+                <td>Filial 2233 e 1413</td>
+                <td>NPS crítico (27.3) e denúncia de venda casada</td>
+                <td>Gerentes de Loja</td>
+                <td><strong>D+7</strong></td>
+                <td>NPS Filial ≥ 60.0</td>
+                <td class="text-center"><span class="badge-nps-qualidade">Em Rollout</span></td>
+              </tr>
+              <tr>
+                <td><strong>Trava Sistêmica de Estoque em CD</strong></td>
+                <td>Corporativo / TI</td>
+                <td>Venda de produto sem saldo gerando cancelamento</td>
+                <td>TI Supply Chain</td>
+                <td><strong>D+10</strong></td>
+                <td>Ruptura pós-venda = 0</td>
+                <td class="text-center"><span class="badge-nps-qualidade">Em Andamento</span></td>
+              </tr>
+              <tr class="row-highlight">
+                <td><strong>Disseminação de Práticas da Filial 1210</strong></td>
+                <td>Rede Regional 120</td>
+                <td>Benchmark da melhor loja de shopping (79.2 NPS)</td>
+                <td>Gerente Filial 1210</td>
+                <td><strong>D+15</strong></td>
+                <td>NPS Regional ≥ 75.0</td>
+                <td class="text-center"><span class="badge-nps-excelente">Contínuo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="kpi-row" style="flex-shrink: 0;">
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Meta Safra Outubro/2026</div>
+            <div class="kpi-val">≥ 75.0 NPS</div>
+            <div class="kpi-delta pos">+7.3 pts vs Setembro • Qualidade</div>
+          </div>
+          <div class="kpi-card success">
+            <div class="kpi-label">Meta Impacto Diretoria 1</div>
+            <div class="kpi-val">≥ 0.00 p.p.</div>
+            <div class="kpi-delta pos">Eliminar tração negativa na D1</div>
+          </div>
+          <div class="kpi-card danger">
+            <div class="kpi-label">Meta Filial 3100 (Shopping)</div>
+            <div class="kpi-val">≥ 70.0 NPS</div>
+            <div class="kpi-delta pos">Recuperação de +11.0 pts vs Set/26</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Meta Retira Loja Regional</div>
+            <div class="kpi-val">≥ 75.0 NPS</div>
+            <div class="kpi-delta pos">+11.2 pts vs Setembro</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé Fixo com Navegação Tátil -->
+  <footer class="footer-bar">
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="footer-meta">Grupo Casas Bahia • CX & Performance Operacional • Regional 120</div>
+    <div class="footer-controls">
+      <span class="slide-counter" id="slide-counter">Slide 1 de 12</span>
+      <button class="btn-nav" id="btn-prev" onclick="changeSlide(-1)">◀ Anterior</button>
+      <button class="btn-nav btn-nav-primary" id="btn-next" onclick="changeSlide(1)">Próximo ▶</button>
+      <button class="btn-nav" id="btn-fullscreen" onclick="toggleFullScreen()">⛶ Tela Cheia</button>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const state = { currentSlide: 0, totalSlides: 12 };
+      const chartRegistry = {};
+      const slides = document.querySelectorAll('.slide');
+      state.totalSlides = slides.length;
+
+      function initCharts(slideIndex) {
+        // Slide 2: Evolução Temporal
+        if (slideIndex === 1) {
+          const canvas = document.getElementById('chartEvolucaoNPS');
+          if (canvas) {
+            if (chartRegistry['chartEvolucaoNPS']) {
+              chartRegistry['chartEvolucaoNPS'].destroy();
+            }
+            const ctx = canvas.getContext('2d');
+            chartRegistry['chartEvolucaoNPS'] = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set (F)', 'Out (P)'],
+                datasets: [
+                  {
+                    label: 'NPS Real Regional 120 (%)',
+                    data: [63.4, 69.1, 73.3, 70.2, 69.4, 69.4, 71.6, 70.0, 67.7, 72.8],
+                    borderColor: '#0033C6',
+                    backgroundColor: 'rgba(0, 51, 198, 0.08)',
+                    borderWidth: 3,
+                    tension: 0.25,
+                    fill: true,
+                    pointBackgroundColor: '#0033C6',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                  },
+                  {
+                    label: 'Meta Corporativa',
+                    data: [75.0, 75.0, 75.0, 75.0, 75.0, 75.0, 75.0, 75.0, 75.0, 75.0],
+                    borderColor: '#DC2626',
+                    borderWidth: 1.5,
+                    borderDash: [5, 5],
+                    fill: false,
+                    pointRadius: 0
+                  }
+                ]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                    labels: { boxWidth: 12, font: { size: 10.5, family: 'Inter' }, color: '#334155' }
+                  },
+                  tooltip: {
+                    callbacks: {
+                      label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}`
+                    }
+                  }
+                },
+                scales: {
+                  y: {
+                    min: 55,
+                    max: 85,
+                    ticks: {
+                      callback: (val) => val + ' pts',
+                      color: '#64748B',
+                      font: { size: 10 }
+                    },
+                    grid: { color: '#E2E8F0' }
+                  },
+                  x: {
+                    ticks: { color: '#64748B', font: { size: 10.5 } },
+                    grid: { display: false }
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        // Slide 7: Dia da Semana
+        if (slideIndex === 6) {
+          const canvas = document.getElementById('chartDiaSemana');
+          if (canvas) {
+            if (chartRegistry['chartDiaSemana']) {
+              chartRegistry['chartDiaSemana'].destroy();
+            }
+            const ctx = canvas.getContext('2d');
+            chartRegistry['chartDiaSemana'] = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                datasets: [{
+                  label: 'NPS por Dia',
+                  data: [56.5, 68.0, 74.2, 59.1, 70.2, 68.8, 73.7],
+                  backgroundColor: [
+                    '#DC2626', '#0033C6', '#0033C6', '#DC2626', '#0033C6', '#0033C6', '#059669'
+                  ],
+                  borderRadius: 4
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                    callbacks: {
+                      label: (ctx) => `NPS: ${ctx.parsed.y.toFixed(1)} pts`
+                    }
+                  }
+                },
+                scales: {
+                  y: {
+                    min: 45,
+                    max: 85,
+                    ticks: { callback: (v) => v, color: '#64748B', font: { size: 10 } },
+                    grid: { color: '#E2E8F0' }
+                  },
+                  x: {
+                    ticks: { color: '#334155', font: { size: 10 } },
+                    grid: { display: false }
+                  }
+                }
+              }
+            });
+          }
+        }
+      }
+
+      function updateUI() {
+        slides.forEach((s, idx) => {
+          s.classList.toggle('active', idx === state.currentSlide);
+        });
+        document.getElementById('slide-counter').textContent = `Slide ${state.currentSlide + 1} de ${state.totalSlides}`;
+        const progress = ((state.currentSlide + 1) / state.totalSlides) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+        initCharts(state.currentSlide);
+      }
+
+      function changeSlide(direction) {
+        const target = state.currentSlide + direction;
+        if (target >= 0 && target < state.totalSlides) {
+          state.currentSlide = target;
+          updateUI();
+        }
+      }
+
+      function goToSlide(index) {
+        if (index >= 0 && index < state.totalSlides) {
+          state.currentSlide = index;
+          updateUI();
+        }
+      }
+
+      function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+
+      window.changeSlide = changeSlide;
+      window.goToSlide = goToSlide;
+      window.toggleFullScreen = toggleFullScreen;
+
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+          e.preventDefault();
+          changeSlide(1);
+        }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          changeSlide(-1);
+        }
+        if (e.key === 'Home') {
+          e.preventDefault();
+          goToSlide(0);
+        }
+        if (e.key === 'End') {
+          e.preventDefault();
+          goToSlide(state.totalSlides - 1);
+        }
+        if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullScreen();
+        }
+      });
+
+      updateUI();
+    })();
+  </script>
+</body>
+</html>

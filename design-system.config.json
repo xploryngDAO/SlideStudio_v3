@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "system": "convergencia",
+  "repository": "https://github.com/xploryngDAO/convergencia-design-system",
+  "version": "0.7.0",
+  "status": "adopted",
+  "scope": [
+    "tokens",
+    "typography",
+    "colors",
+    "atoms",
+    "fields",
+    "navigation",
+    "feedback",
+    "patterns",
+    "blocks",
+    "themes",
+    "app-shell"
+  ],
+  "notes": "Full adoption of Convergência Design System across SlideStudio: welcome screen, studio editor, toolbar, inspector, wizard, navigator and components."
+}
